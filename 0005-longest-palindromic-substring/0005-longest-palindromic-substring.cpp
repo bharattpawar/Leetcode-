@@ -1,33 +1,35 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        if (s.empty()) {
-            return "";
+    int t[1001][1001];
+
+    int ispalandrome(int start, int end, string &s) {
+        if (start >= end) return 1;  // Single char or empty is palindrome
+        if (t[start][end] != -1) return t[start][end];
+
+        if (s[start] == s[end]) {
+            return t[start][end] = ispalandrome(start + 1, end - 1, s);
         }
+        return t[start][end] = 0;
+    }
 
-        int start = 0;
-        int end = 0;
+    string longestPalindrome(string s) {
+        int n = s.size();
+        memset(t, -1, sizeof(t));
 
-        for (int i = 0; i < s.length(); i++) {
-            int odd = expandAroundCenter(s, i, i);
-            int even = expandAroundCenter(s, i, i + 1);
-            int max_len = max(odd, even);
+        int max_len = 1;
+        int start_idx = 0;
 
-            if (max_len > end - start) {
-                start = i - (max_len - 1) / 2;
-                end = i + max_len / 2;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (ispalandrome(i, j, s) == 1) {
+                    if (j - i + 1 > max_len) {
+                        max_len = j - i + 1;
+                        start_idx = i;
+                    }
+                }
             }
         }
 
-        return s.substr(start, end - start + 1);        
+        return s.substr(start_idx, max_len);
     }
-
-private:
-    int expandAroundCenter(string s, int left, int right) {
-        while (left >= 0 && right < s.length() && s[left] == s[right]) {
-            left--;
-            right++;
-        }
-        return right - left - 1;
-    }    
 };
