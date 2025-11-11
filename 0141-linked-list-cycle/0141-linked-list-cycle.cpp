@@ -8,7 +8,8 @@
  */
 class Solution {
 public:
-    bool hasCycle(ListNode *head) {
+    bool hasCycle(ListNode *head) 
+    {if(head==NULL)return false;
        vector<ListNode*>check;if(head->next==NULL)return false;
        check.push_back(head);
 
