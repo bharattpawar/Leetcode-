@@ -17,11 +17,11 @@ public:
 
         ListNode* even=head->next;
         ListNode* even_head=head->next;
-while(odd->next!=NULL&&odd->next->next!=NULL){
-    odd->next=odd->next->next;
+while(odd->next!=NULL&&odd->next->next!=NULL){odd->next=odd->next->next;
     odd=odd->next;
         even->next=even->next->next;
     even=even->next;
+     
 }
  
 odd->next=even_head;
