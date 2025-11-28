@@ -24,8 +24,7 @@ temp=temp->next;
      }          if(k%n==0)return head;
 
       k=k%n;
-       if(k==n)return head;
-
+ 
      int find=n-k;
      temp=head;
      find--;
