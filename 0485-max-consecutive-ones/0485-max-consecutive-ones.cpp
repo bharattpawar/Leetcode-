@@ -7,7 +7,7 @@ public:
             if(nums[i]==0){
                 ans=max(ans,check);
                 check=0;
-                 
+                 while(nums[i]==0)i++;
             }
             else{
                 check++;
