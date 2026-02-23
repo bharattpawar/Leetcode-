@@ -1,32 +1,38 @@
 class Solution {
 public:
     int myAtoi(string s) {
-      long long ans=0;
-    char sign=' ';
-      int i=0;
-
-
-     
-while(s[i]==' ')i++;
-      while(s[i]=='-'||s[i]=='+'){
-        if(sign==' ')sign=s[i];
-        else{return 0;}
-        i++;
-      }
-      while(s[i] >= '0' && s[i] <= '9') {
-                    int digit = s[i] - '0';
-
-        if (ans > INT_MAX / 10 || 
-   (ans == INT_MAX / 10 && digit > INT_MAX % 10)) {
-    return sign == 1 ? INT_MAX : INT_MIN;
-}
-
-ans = ans * 10 + (s[i] - '0');
+        int n=s.size();
+        int sign=1;
+        int i=0;long long ans=0;
+        while(s[i]==' '){
+            i++;
+        }
+        
+         if(s[i]=='-'){
+            sign=-1;
+            i++;
+        }
+        else if(s[i]=='+'){
+            sign=1;
+            i++;
+        }
+        while(s[i]-'0'==0)i++;
+        if(i<n&&s[i]-'0'>=0&&s[i]-'0'<=9){ 
+        while(i<n&&s[i]-'0'>=0&&s[i]-'0'<=9){
+ 
+ans=ans*10+s[i]-'0';
 i++;
+                 if(sign==-1){
+            if(-1*ans<=INT_MIN)return INT_MIN;
+            }
+else  if(ans>=INT_MAX)return INT_MAX;   }}
+        else{
+            return 0;
+        }
+if(sign==-1){
+    ans=ans*-1;
 }
-  
-if(sign=='-')
-ans=ans*-1;
-
-return ans;}
+ 
+return ans;
+    }
 };
