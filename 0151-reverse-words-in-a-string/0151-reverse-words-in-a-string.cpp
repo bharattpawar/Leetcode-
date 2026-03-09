@@ -13,8 +13,7 @@ public:
                 s[j++] = s[i++];               // copy word
             }
 
-            while(i < n && s[i] == ' ') i++;   // skip spaces
-
+          
             if(i < n) s[j++] = ' ';            // add single space
         }
 
