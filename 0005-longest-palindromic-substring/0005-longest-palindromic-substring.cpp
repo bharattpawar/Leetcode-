@@ -1,36 +1,52 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        int n = s.size();
-        string ans="";
+        int n=s.size();
+        int i=0;
+        string ans;
+        string anscheck;
 
-        for(int i=0;i<n;i++){
+        while(i<n){
+int right_check=i;
+while(right_check<n-1&&s[right_check]==s[right_check+1]){
+anscheck+=s[right_check];
+ 
+right_check++;
+}
+ if(right_check<n&&anscheck.size()>0&&anscheck.back()==s[right_check]){
+   anscheck+=s[right_check];
+ 
+}
+if(ans.size()<anscheck.size()){
+    ans=anscheck;}
 
-            // odd length palindrome
-            int start=i;
-            int end=i;
+anscheck="";
+while()
+int left=i-1;
+int right=i+1;
+if(left>=0&&right<n&&s[left]==s[right])
+{while(left>=0&&right<n&&s[left]==s[right]){
+    left--;
+    right++;
+}
+left++;
+right--;}
+else{
+    right=0;
+    left=0;
+}
+ 
+if(left>=0&&right<n&&ans.size()<right-left+1){
+    ans="";
+    for(int j=left;j<=right;j++){
+    ans+=s[j];
+    }
+}
 
-            while(start>=0 && end<n && s[start]==s[end]){
-                if(end-start+1 > ans.size()){
-                    ans = s.substr(start,end-start+1);
-                }
-                start--;
-                end++;
-            }
+ 
 
-            // even length palindrome
-            start=i;
-            end=i+1;
-
-            while(start>=0 && end<n && s[start]==s[end]){
-                if(end-start+1 > ans.size()){
-                    ans = s.substr(start,end-start+1);
-                }
-                start--;
-                end++;
-            }
+i++;
         }
-
         return ans;
     }
 };
