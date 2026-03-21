@@ -8,9 +8,10 @@ if(sum==target){
     ans.push_back(check);return;
 }
 check.push_back(candidates[i]);
-find(candidates,ans,check,i,sum+candidates[i],target);
-// check.pop_back();
-// sum=sum-candidates[i];
+sum+=candidates[i];
+find(candidates,ans,check,i,sum,target);
+check.pop_back();
+ sum=sum-candidates[i];
 find(candidates,ans,check,i+1,sum,target);
 
 
