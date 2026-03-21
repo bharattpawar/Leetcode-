@@ -1,35 +1,35 @@
 class Solution {
 public:
-
-void find(vector<int>& arr, vector<vector<int>>& ans, vector<int>& check, int target, int i) {
-    
-    if(target == 0){
-        ans.push_back(check);
-        return;
-    }
-
-    for(int j = i; j < arr.size(); j++){
+    void find(vector<int>& candidates, vector<int>& check, vector<vector<int>>& ans, int i, int sum, int target) {
         
-        // skip duplicates
-        if(j > i && arr[j] == arr[j-1]) continue;
+        if(sum == target){
+            ans.push_back(check);
+            return;
+        }
 
-        if(arr[j] > target) break;
+        if(sum > target) return;
 
-        check.push_back(arr[j]);
-        find(arr, ans, check, target - arr[j], j + 1);
-        check.pop_back();
+        for(int index = i; index < candidates.size(); index++){
+
+            // skip duplicates
+            if(index > i && candidates[index] == candidates[index - 1]) continue;
+
+            check.push_back(candidates[index]);
+
+            find(candidates, check, ans, index + 1, sum + candidates[index], target);
+
+            check.pop_back();
+        }
     }
-}
 
-vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-    
-    sort(candidates.begin(), candidates.end());
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        
+        vector<vector<int>> ans;
+        vector<int> check;
 
-    vector<vector<int>> ans;
-    vector<int> check;
+        find(candidates, check, ans, 0, 0, target);
 
-    find(candidates, ans, check, target, 0);
-
-    return ans;
-}
+        return ans;
+    }
 };
