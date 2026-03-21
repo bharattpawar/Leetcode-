@@ -9,7 +9,7 @@ if(sum==target){
 }
 check.push_back(candidates[i]);
 find(candidates,ans,check,i,sum+candidates[i],target);
-check.pop_back();
+// check.pop_back();
 // sum=sum-candidates[i];
 find(candidates,ans,check,i+1,sum,target);
 
