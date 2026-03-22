@@ -2,22 +2,23 @@ class Solution {
 public:
 
 
-void findans(vector<vector<int>>&ans,vector<int>nums,vector<int>&part,int i,int n){
-    if(i>=n){
-ans.push_back(part);return;
-    }
-    part.push_back(nums[i]);
-    findans(ans,nums,part,i+1,n);
-    part.pop_back();
-    findans(ans,nums,part,i+1,n);
-return ;
+void find(vector<vector<int>>&ans,vector<int>check,int i,vector<int> nums){
+if(i == nums.size()) {
+    ans.push_back(check);
+    return;
+}
+    check.push_back(nums[i]);
+     find(ans,check,i+1,nums);
+     check.pop_back();
+          find(ans,check,i+1,nums);
 
 }
     vector<vector<int>> subsets(vector<int>& nums) {
-      vector<vector<int>>ans;
-      vector<int>part;
-      int n=nums.size();int i=0;
-findans(ans,nums,part,i,n);
+        
+        vector<vector<int>>ans;
+        vector<int>check;
+        
+        find(ans,check,0,nums);
 return ans;
     }
 };
