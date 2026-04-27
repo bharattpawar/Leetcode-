@@ -14,7 +14,7 @@ public:
     Node* flatten(Node* head) {
        Node* temp=head;
        while(temp!=NULL){
-        if(temp!=NULL&&temp->child!=NULL){
+        if(temp->child!=NULL){
             Node* gochild=temp->child;
              Node* goneext=temp->next;
                       
