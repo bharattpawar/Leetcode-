@@ -1,18 +1,25 @@
 class Solution {
 public:
     int rangeSum(vector<int>& nums, int n, int left, int right) {
-        vector<int>ans;int M=1e9 + 7;
-        for(int i=0;i<n;i++){
-            int sum=0;
-            for(int j=i;j<n;j++){
-sum+=nums[j];
-ans.push_back(sum);
+        int m=1e9+7;
+     priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+     for(int i=0;i<n;i++){
+        pq.push({nums[i], i});
+     }
+     int ans=0;
+     for(int i=1;i<=right;i++){
+      auto p = pq.top();
+pq.pop();
+int number = p.first;    
+        int ind=p.second;
+          if(i >= left){
+                ans =(ans+number)%m;
             }
-        }
-        sort(ans.begin(),ans.end());int anss=0;
-        for(int i=left-1;i<right;i++){
-anss=(anss+ans[i])%M;
-        }
-return anss;
+     if (ind + 1 < n) {
+    pq.push({number + nums[ind + 1], ind + 1});
+}
+      
+     }
+     return ans;
     }
 };
