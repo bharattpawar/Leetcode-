@@ -17,25 +17,21 @@ if(n==k)return "0";
             k--;
             j--;
         }
-        string ans;stack<int>rev;
-         while(!st.empty()){
-        rev.push(st.top());
-    st.pop();
-    }
-        
-      while(!rev.empty()&&rev.top()==0){
-    rev.pop();
-    }
- while(!rev.empty()){
-        ans.push_back(rev.top()+'0');
-    rev.pop();
+        string ans = "";
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
+        }
+
+        reverse(ans.begin(), ans.end());
+
     
-    }
-if(ans.size()==0){
-    return "0";
-}
+        int i = 0;
+        while(i < ans.size() && ans[i] == '0') i++;
 
+        ans = ans.substr(i);
 
+        return ans == "" ? "0" : ans;
      
     return ans;
     }
