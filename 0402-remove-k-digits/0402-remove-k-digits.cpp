@@ -19,13 +19,13 @@ if(n==k)return "0";
         }
         string ans = "";
         while(!st.empty()){
-            ans.push_back(st.top());
+            ans.push_back(st.top()+'0');
             st.pop();
         }
 
         reverse(ans.begin(), ans.end());
 
-    
+        // remove leading zeros
         int i = 0;
         while(i < ans.size() && ans[i] == '0') i++;
 
