@@ -11,20 +11,13 @@
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        queue<TreeNode*>q;
-        int curr=0;
-        int ans=0;
+int find(TreeNode* root,int ans){
 if(root==NULL)return 0;
-q.push(root);
-while(!q.empty()){
-    ans++;
-    curr=q.size();
-    while(curr){
-        if(q.front()->left!=NULL)q.push(q.front()->left);
-        if(q.front()->right!=NULL)q.push(q.front()->right);q.pop();
-        curr--;
-    }
-}return ans;
+return max(1+find(root->left,ans),1+find(root->right,ans));
+}
+    int maxDepth(TreeNode* root) {
+       int ans=0;
+       return find(root,ans);
+ 
     }
 };
