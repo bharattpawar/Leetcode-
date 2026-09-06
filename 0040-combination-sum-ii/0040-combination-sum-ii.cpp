@@ -1,34 +1,56 @@
 class Solution {
 public:
-    void find(vector<int>& candidates, vector<int>& check, vector<vector<int>>& ans, int i, int sum, int target) {
-        
-        if(sum == target){
+
+    void solve(vector<int>& candidates,
+               vector<vector<int>>& ans,
+               vector<int>& check,
+               int target,
+               int i,
+               int sum) {
+
+        if (sum == target) {
             ans.push_back(check);
             return;
         }
 
-        if(sum > target) return;
+        if (sum > target || i >= candidates.size()) {
+            return;
+        }
 
-        for(int index = i; index < candidates.size(); index++){
+        for (int j = i; j < candidates.size(); j++) {
 
-            // skip duplicates
-            if(index > i && candidates[index] == candidates[index - 1]) continue;
+            // Duplicate skip
+            if (j > i && candidates[j] == candidates[j - 1]) {
+                continue;
+            }
 
-            check.push_back(candidates[index]);
+            // Since array is sorted
+            if (sum + candidates[j] > target) {
+                break;
+            }
 
-            find(candidates, check, ans, index + 1, sum + candidates[index], target);
+            // Take
+            check.push_back(candidates[j]);
 
+            // j + 1 because each element can be used only once
+            solve(candidates, ans, check,
+                  target, j + 1, sum + candidates[j]);
+
+            // Backtrack
             check.pop_back();
         }
     }
 
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        sort(candidates.begin(), candidates.end());
-        
+    vector<vector<int>> combinationSum2(vector<int>& candidates,
+                                         int target) {
+
         vector<vector<int>> ans;
         vector<int> check;
 
-        find(candidates, check, ans, 0, 0, target);
+        // Required for duplicate handling and early break
+        sort(candidates.begin(), candidates.end());
+
+        solve(candidates, ans, check, target, 0, 0);
 
         return ans;
     }
