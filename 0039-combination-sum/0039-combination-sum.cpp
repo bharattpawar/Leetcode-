@@ -1,30 +1,24 @@
 class Solution {
 public:
-void find(vector<int>& candidates,vector<vector<int>>&ans,vector<int>check,int i,int sum,int target){
-if(i==candidates.size()||sum>target){
+void solve(vector<int>& candidates,vector<vector<int>>&ans,vector<int>&check,int target,int i,int sum){
+
+if(sum>target||i>=candidates.size()){
     return;
 }
 if(sum==target){
     ans.push_back(check);return;
 }
 check.push_back(candidates[i]);
-sum+=candidates[i];
-find(candidates,ans,check,i,sum,target);
+solve(candidates,ans,check,target,i,sum+candidates[i]);
+ 
 check.pop_back();
- sum=sum-candidates[i];
-find(candidates,ans,check,i+1,sum,target);
-
-
-
-
-
-
+solve(candidates,ans,check,target,i+1,sum);
 }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>>ans;
-        vector<int>check;
-           int i=0;
-           find(candidates,ans,check,i,0,target);
-           return ans;
+        vector<int>check;int sum=0;
+        int i=0;
+        solve(candidates,ans,check,target,i,sum);
+        return ans;
     }
 };
