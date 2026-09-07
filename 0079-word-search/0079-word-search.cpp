@@ -4,7 +4,6 @@ vector<vector<int>>direction{{1,0},{0,1},{0,-1},{-1,0}};
 bool isans(vector<vector<char>>& board,int i,int j,string& word,int index){
 if(index==word.size()) return true;
 if(i<0||j<0||i>=n||j>=m)return false;
-if(board[i][j]=='$')return false;
 if(board[i][j]!=word[index])return false;
 char temp=board[i][j];
 board[i][j]='$';
