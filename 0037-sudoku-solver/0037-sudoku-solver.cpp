@@ -1,54 +1,73 @@
 class Solution {
-    int n = 3, N = 9;
-    int rows[9][10] = {}, cols[9][10] = {}, boxes[9][10] = {};
-    vector<vector<char>>* boardPtr;
-    bool sudokuSolved = false;
-
-    bool couldPlace(int d, int row, int col) {
-        int idx = (row / n) * n + col / n;
-        return rows[row][d] + cols[col][d] + boxes[idx][d] == 0;
-    }
-
-    void placeNumber(int d, int row, int col) {
-        int idx = (row / n) * n + col / n;
-        rows[row][d]++;
-        cols[col][d]++;
-        boxes[idx][d]++;
-        (*boardPtr)[row][col] = d + '0';
-    }
-
-    void removeNumber(int d, int row, int col) {
-        int idx = (row / n) * n + col / n;
-        rows[row][d]--;
-        cols[col][d]--;
-        boxes[idx][d]--;
-        (*boardPtr)[row][col] = '.';
-    }
-
-    void placeNextNumbers(int row, int col) {
-        if (row == N - 1 && col == N - 1) sudokuSolved = true;
-        else if (col == N - 1) backtrack(row + 1, 0);
-        else backtrack(row, col + 1);
-    }
-
-    void backtrack(int row, int col) {
-        if ((*boardPtr)[row][col] == '.') {
-            for (int d = 1; d <= 9; d++) {
-                if (couldPlace(d, row, col)) {
-                    placeNumber(d, row, col);
-                    placeNextNumbers(row, col);
-                    if (!sudokuSolved) removeNumber(d, row, col);
-                }
-            }
-        } else placeNextNumbers(row, col);
-    }
-
 public:
+
+    bool check(int c, int row, int col, vector<vector<char>>& board) {
+
+        char f = '0' + c;
+
+        // Check row
+        for (int i = 0; i < 9; i++) {
+            if (board[row][i] == f)
+                return false;
+        }
+
+        // Check column
+        for (int i = 0; i < 9; i++) {
+            if (board[i][col] == f)
+                return false;
+        }
+
+        // Find starting point of 3x3 box
+        row = (row / 3) * 3;
+        col = (col / 3) * 3;
+
+        // Check 3x3 box
+        for (int a = row; a < row + 3; a++) {
+            for (int b = col; b < col + 3; b++) {
+                if (board[a][b] == f)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool find(int row, int col, vector<vector<char>>& board) {
+
+        // Sudoku completely solved
+        if (row == 9)
+            return true;
+
+        // Move to next row
+        if (col == 9) {
+            return find(row + 1, 0, board);
+        }
+
+        // Already filled cell
+        if (board[row][col] != '.')
+            return find(row, col + 1, board);
+
+        // Try numbers 1 to 9
+        for (int i = 1; i <= 9; i++) {
+
+            if (check(i, row, col, board)) {
+
+                // Place number
+                board[row][col] = '0' + i;
+
+                // Recursively solve
+                if (find(row, col + 1, board))
+                    return true;
+
+                // Backtrack
+                board[row][col] = '.';
+            }
+        }
+
+        return false;
+    }
+
     void solveSudoku(vector<vector<char>>& board) {
-        boardPtr = &board;
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++)
-                if (board[i][j] != '.') placeNumber(board[i][j] - '0', i, j);
-        backtrack(0, 0);
+        find(0, 0, board);
     }
 };
