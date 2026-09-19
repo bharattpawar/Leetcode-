@@ -1,73 +1,60 @@
 class Solution {
 public:
-
-    bool check(int c, int row, int col, vector<vector<char>>& board) {
-
-        char f = '0' + c;
-
-        // Check row
-        for (int i = 0; i < 9; i++) {
-            if (board[row][i] == f)
-                return false;
+bool canput(vector<vector<char>>& board,int i,int j,int check){
+    //row
+    for(int row=0;row<9;row++){
+        if(board[i][row]==check){
+            return 0;
         }
-
-        // Check column
-        for (int i = 0; i < 9; i++) {
-            if (board[i][col] == f)
-                return false;
-        }
-
-        // Find starting point of 3x3 box
-        row = (row / 3) * 3;
-        col = (col / 3) * 3;
-
-        // Check 3x3 box
-        for (int a = row; a < row + 3; a++) {
-            for (int b = col; b < col + 3; b++) {
-                if (board[a][b] == f)
-                    return false;
-            }
-        }
-
-        return true;
     }
-
-    bool find(int row, int col, vector<vector<char>>& board) {
-
-        // Sudoku completely solved
-        if (row == 9)
-            return true;
-
-        // Move to next row
-        if (col == 9) {
-            return find(row + 1, 0, board);
+    //col
+      for(int col=0;col<9;col++){
+        if(board[col][j]==check){
+            return 0;
+        }}
+    //Same box 
+int row=(i/3)*3;
+int col=(j/3)*3;
+for(int a=row;a<row+3;a++){
+    for(int b=col;b<col+3;b++){
+        if(board[a][b]==check){
+            return 0;
         }
-
-        // Already filled cell
-        if (board[row][col] != '.')
-            return find(row, col + 1, board);
-
-        // Try numbers 1 to 9
-        for (int i = 1; i <= 9; i++) {
-
-            if (check(i, row, col, board)) {
-
-                // Place number
-                board[row][col] = '0' + i;
-
-                // Recursively solve
-                if (find(row, col + 1, board))
-                    return true;
-
-                // Backtrack
-                board[row][col] = '.';
-            }
-        }
-
-        return false;
     }
+}
+return 1;
+     
+}
+bool solve(vector<vector<char>>&board,int i,int j){
+    if(j==9){
+    return    solve(board,i+1,0); 
+    }
+    if(i==9){
+        return  true;
+    }
+    if(board[i][j]!='.')
+     return solve(board,i,j+1); 
 
+      for(int checkk=1;checkk<=9;checkk++){
+char check=checkk+'0';
+                    if(canput(board,i,j,check)){
+board[i][j] = check;
+
+if(solve(board,i,j+1)){
+    return true;
+}
+
+board[i][j] = '.';
+ 
+                    }
+      }
+ return false;
+}
     void solveSudoku(vector<vector<char>>& board) {
-        find(0, 0, board);
-    }
+       solve(board, 0, 0);
+
+             
+        
+         
+    return ;}
 };
